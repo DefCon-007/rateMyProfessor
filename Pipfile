@@ -6,10 +6,12 @@ verify_ssl = true
 [dev-packages]
 requests = "*"
 jupyter = "*"
+django-extensions = "*"
 
 [packages]
 django = "*"
 configparser = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.7"
