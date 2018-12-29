@@ -15,7 +15,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+{#    Rating Styles Start#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway:100'>
+
+
+
+{#    Rating styles End#}
+
+
     <!-- Site Icons -->
+
     <link rel="shortcut icon" href="{% static '/webview/images/favicon.ico' %}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{% static '/webview/images/apple-touch-icon.png' %}">
 
@@ -28,27 +40,139 @@
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{% static '/webview/css/responsive.css' %}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static '/webview/css/custom.css' %}">
+{#    <link rel="stylesheet" href="{% static '/webview/css/custom.css' %}">#}
 
 {#    SweetAlert2#}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@2.9.1/dist/tagify.css">
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@2.9.1/dist/tagify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.all.min.js"></script>
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+          /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+          .star-rating, .label-tag{
+      font-family: 'FontAwesome';
+              color: black;
+        font-size: 120%;
+      {#margin: 50px auto;#}
+    }
+    .star-rating > fieldset {
+      border: none;
+      display: inline-block;
+    }
+    .star-rating > fieldset:not(:checked) > input {
+      position: absolute;
+      top: -9999px;
+      clip: rect(0, 0, 0, 0);
+    }
+    .star-rating > fieldset:not(:checked) > label {
+      float: right;
+      width: 1em;
+      padding: 0 0.05em;
+      overflow: hidden;
+      white-space: nowrap;
+      cursor: pointer;
+      font-size: 200%;
+      color: #9c7ad3;
+    }
+    .star-rating > fieldset:not(:checked) > label:before {
+      content: '\f006  ';
+    }
+    .star-rating > fieldset:not(:checked) > label:hover,
+    .star-rating > fieldset:not(:checked) > label:hover ~ label {
+      color: #5b487a;
+      text-shadow: 0 0 3px #987bc6;
+    }
+    .star-rating > fieldset:not(:checked) > label:hover:before,
+    .star-rating > fieldset:not(:checked) > label:hover ~ label:before {
+      content: '\f005  ';
+    }
+    .star-rating > fieldset > input:checked ~ label:before {
+      content: '\f005  ';
+    }
+    .star-rating > fieldset > label:active {
+      position: relative;
+      top: 2px;
+    }
+    body {
+      background: #262829;
+      color: #95a5a6;
+      font-family: 'Raleway';
+      text-align: center;
+    }
+    body p {
+      font-size: 1.6em;
+      margin: auto;
+      width: 80%;
+    }
+    body a {
+      color: #9c7ad3;
+    }
 
+
+
+
+        .logout {
+ {#background:url('https://dh3vbjnk0bnfa.cloudfront.net/static/centralauth/images/btn-login-hover.png') no-repeat 5px 5px #484B4F;#}
+             background: #755c9e;
+  width: 100px;
+  cursor:pointer;
+  border-radius:50px;
+  padding:10px 20px 10px 0;
+  color:White;
+  font-size:14px;
+  text-align:left;
+  text-indent:40px;
+  display:block;
+  margin:0 auto;
+
+  /* Animations: */
+  -webkit-transition-timing-function: ease-in-out;
+  -webkit-transition-duration: .4s;
+  -webkit-transition-property: all;
+
+  -moz-transition-timing-function: ease-in-out;
+  -moz-transition-duration: .4s;
+  -moz-transition-property: all;
+}
+
+.logout:hover {
+  {#background-image: url( 'https://dh3vbjnk0bnfa.cloudfront.net/static/centralauth/images/btn-login.png' );#}
+    background: #755c9e;
+  {#background-position: 65px 5px;#}
+  text-indent: 15px;
+}
+        </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@2.9.1/dist/tagify.min.js"></script>
 </head>
 
 <body>
+
+<script>
+    var LOGIN_STATUS = {{ loggedIn }}
+</script>
 <div id="particles-js" class="main-form-box">
+{#<a href="#" style="z-index: 1000;position: fixed;top:0;right: 0;">#}
+{#          <span class="glyphicon glyphicon-log-out"></span> Log out#}
+{#        </a>#}
+<input type="button" value="Logout" class="logout" style="z-index: 1000;position: fixed;top:2%;right: 4%;"/>
+
 	<div class="md-form">
+
 		<div class="container">
+
 			<div class="row">
+
 				<div class="col-md-6 offset-md-3">
+
 					<div class="panel panel-login">
 						<div class="logo-top">
-							<a href="#"><img src="images/logo.png" alt="" /></a>
+							<a href="#"><img src="{% static 'webview/images/logo.png' %}" alt="" /></a>
 						</div>
 						<div class="panel-heading">
 							<div class="row">
@@ -97,7 +221,8 @@
 											</div>
 										</div>
 									</form>
-									<form id="register-form" action="#" method="post" role="form" style="display: none;">
+                                    <div id="test">
+									<form id="register-form" action="/login" method="post" role="form" style="display: none;">
 {#										<div class="form-group">#}
 {#											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>#}
 {#											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" required="">#}
@@ -141,11 +266,87 @@
 											</div>
 										</div>										
 									</form>
+                                        </div>
+                                    <form id="rating-form" action="" method="post" role="form" style="display: none;">
+										<div class="form-group">
+                                            <div class="star-rating">How much is the attendance load?<br>(1 Star : Very strict/Have to attend almost all classes<br>5 Star : Ekdum Peace/Can bunk every class)<br>
+                                              <fieldset class="attendance">
+                                                <input type="radio" id="star5" name="rating1" value="5" class="rating"/><label for="star5" title="Outstanding">5 stars</label>
+                                                <input type="radio" id="star4" name="rating1" value="4" class="rating"/><label for="star4" title="Very Good">4 stars</label>
+                                                <input type="radio" id="star3" name="rating1" value="3" class="rating"/><label for="star3" title="Good">3 stars</label>
+                                                <input type="radio" id="star2" name="rating1" value="2" class="rating"/><label for="star2" title="Poor">2 stars</label>
+                                                <input type="radio" id="star1" name="rating1" value="1" class="rating"/><label for="star1" title="Very Poor">1 star</label>
+                                              </fieldset>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="star-rating">How good the professor gives overall grades?<br>(1 Star : Strictly according to the performance<br>5 Star : Looking at you name/face/attendance/gender)<br>
+                                              <fieldset class="attendance">
+                                                <input type="radio" id="star54" name="rating13" value="5" class="rating"/><label for="star54" title="Outstanding">5 stars</label>
+                                                <input type="radio" id="star44" name="rating13" value="4" class="rating"/><label for="star44" title="Very Good">4 stars</label>
+                                                <input type="radio" id="star34" name="rating13" value="3" class="rating"/><label for="star34" title="Good">3 stars</label>
+                                                <input type="radio" id="star24" name="rating13" value="2" class="rating"/><label for="star24" title="Poor">2 stars</label>
+                                                <input type="radio" id="star14" name="rating13" value="13" class="rating"/><label for="star14" title="Very Poor">1 star</label>
+                                              </fieldset>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="star-rating">How good the professor gives TA marks? <br>(1 Star : 0/20 or strictly accoding to class/test performance<br>5 Star : 20/20 or according to how much you can beg!)<br>
+                                              <fieldset class="taMarks">
+                                                <input type="radio" id="star511" name="rating2" value="5" class="rating"/><label for="star511" title="Outstanding">5 stars</label>
+                                                <input type="radio" id="star411" name="rating2" value="4" class="rating"/><label for="star411" title="Very Good">4 stars</label>
+                                                <input type="radio" id="star311" name="rating2" value="3" class="rating"/><label for="star311" title="Good">3 stars</label>
+                                                <input type="radio" id="star211" name="rating2" value="2" class="rating"/><label for="star211" title="Poor">2 stars</label>
+                                                <input type="radio" id="star111" name="rating2" value="1" class="rating"/><label for="star111" title="Very Poor">1 star</label>
+                                              </fieldset>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="star-rating">How much is the professor strict about class timings? i.e. Allowing to enter class on being late<br>(1 Star : Will not allow even if 5 minutes late<br>5 Star : Doesn't care when you enter the class)<br>
+                                              <fieldset class="timing">
+                                                <input type="radio" id="star51" name="rating21" value="5" class="rating"/><label for="star51" title="Outstanding">5 stars</label>
+                                                <input type="radio" id="star41" name="rating21" value="4" class="rating"/><label for="star41" title="Very Good">4 stars</label>
+                                                <input type="radio" id="star31" name="rating21" value="3" class="rating"/><label for="star31" title="Good">3 stars</label>
+                                                <input type="radio" id="star21" name="rating21" value="2" class="rating"/><label for="star21" title="Poor">2 stars</label>
+                                                <input type="radio" id="star11" name="rating21" value="1" class="rating"/><label for="star11" title="Very Poor">1 star</label>
+                                              </fieldset>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+											<label class="label-tag">Kindly add some short tags for your fellow mates.</label>
+                                            <input name='tags' class="form-control" autofocus>
+
+{#											<input type="text" name="tags" id="tags" tabindex="2" class="form-control" placeholder="">#}
+										</div>
+									<!-- 	<ul>
+											<li>
+												<button class="fb"><i class="fab fa-facebook-f"></i> Connect with Facebook</button>
+											</li>
+											<li>
+												<button class="tw"><i class="fab fa-twitter"></i> Connect with Twitter</button>
+											</li>
+										</ul> -->
+                                        <div class="form-group">
+											<div class="row">
+												<div class="col-sm-6 offset-sm-3">
+													<input type="button" name="rating-submit" id="rating-submit" tabindex="4" class="form-control btn btn-login" value="Submit">
+												</div>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
 					</div>
-					
+
 					<p class="footer-company-name">All Rights Reserved. &copy; 2018 <a href="#">Login Register</a> Design By : <a href="https://html.design/">html design</a></p>
 					
 				</div>
@@ -155,7 +356,7 @@
 	
 </div>
 
-	
+
 <script src="{% static '/webview/js/jquery.min.js' %}"></script>
 <script src="{% static '/webview/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/webview/js/particles.min.js' %}"></script>
@@ -167,13 +368,16 @@
 				$("#register-form").fadeOut(100);
 				$('#register-form-link').removeClass('active');
 				$(this).addClass('active');
+				$("#rating-form").hide();
 				e.preventDefault();
 			});
 			$('#register-form-link').click(function(e) {
 				$("#register-form").delay(100).fadeIn(100);
 				$("#login-form").fadeOut(100);
 				$('#login-form-link').removeClass('active');
+				$('#register-form-link').removeClass('active');
 				$(this).addClass('active');
+				attachForm(true)
 				e.preventDefault();
 			});
 			$('#getpassword-button').click(function(e) {
@@ -240,6 +444,84 @@
 
 
 
+    function attachForm(flag=false){
+        console.log(LOGIN_STATUS);
+        {#var tagIdToDisplay = {{ tagIdToDisplay }};#}
+        var loginForm = document.getElementById("test");
+        var ratingForm  = document.getElementById("rating-form");
+        if ((LOGIN_STATUS) || (flag)){
+            console.log("logged in");
+            {#$("#register-form").toggle();#}
+            {#loginForm.hide();#}
+            loginForm.style.display = "none" ;
+            ratingForm.style.display = "block";
+        }
+        else {
+            {
+                console.log("not logged in");
+            loginForm.style.display = "block" ;
+            ratingForm.style.display = "none";
+        }
+        }
+
+    }
+
+    {#Getting the rating from radio buttons#}
+   $('.rating').click(function(e) {
+       console.log(e);
+        var classn = $(this).parent().attr('class');
+        var val = $(this).attr('value');
+        console.log($(this).attr('name'))
+        console.log(classn);
+        console.log(val);
+      });
+var input = document.querySelector('input[name=tags]'),
+    // init Tagify script on the above inputs
+    tagify = new Tagify(input, {
+tagTemplate : function(v, tagData){
+    return `<tag title='${v}'>
+                    <x title=''></x>
+                    <div style="background:#755c9e;color:white;">
+                        ${v}
+                    </div>
+                </tag>`;
+    },
+    });
+
+// Chainable event listeners
+tagify.on('add', onAddTag)
+      .on('remove', onRemoveTag)
+      .on('input', onInput)
+      .on('invalid', onInvalidTag)
+      .on('click', onTagClick);
+
+// tag added callback
+function onAddTag(e){
+    console.log(e.detail);
+    console.log("original input value: ", input.value)
+    tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
+}
+
+// tag remvoed callback
+function onRemoveTag(e){
+    console.log(e.detail);
+    console.log("tagify instance value:", tagify.value)
+}
+
+// on character(s) added/removed (user is typing/deleting)
+function onInput(e){
+    console.log(e.detail);
+}
+
+// invalid tag added callback
+function onInvalidTag(e){
+    console.log(e.detail);
+}
+
+// invalid tag added callback
+function onTagClick(e){
+    console.log(e.detail);
+}
 	</script>
 </body>
 </html>

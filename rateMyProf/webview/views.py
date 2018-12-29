@@ -1,9 +1,14 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from .src import utility,database
+from django.contrib.auth import authenticate, login
 # Create your views here.
+
+
 def index(request) :
-    return render(request, 'webview/index.html')
+    # if request.user.is_authenticated:
+
+    return render(request, 'webview/index.html', {"loggedIn" : "false"})
 
 
 def sendPassword(request) :
@@ -21,3 +26,12 @@ def sendPassword(request) :
 
     return HttpResponse(errorMsg, status=500)
 
+def login(request) :
+    username = request.POST['username'].strip()
+    password = request.POST['password'].strip()
+
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+    # else :
+        #Invalid credentials

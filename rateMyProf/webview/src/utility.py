@@ -8,6 +8,7 @@ def getPassword(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
+
 def sendMail(email, password) :
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)
     from_email = Email("support@ratemyprof.defcon007.com")
