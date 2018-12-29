@@ -101,6 +101,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+
+SENDGRID_API_KEY = config.get("api", "SENDGRID_KEY")
+
 FACULTY_DEPARTMENT_DICT = {'AE': 'Aerospace Engineering',
                            'AG': 'Agricultural and Food Engineering',
                            'AR': 'Architecture and Regional Planning',

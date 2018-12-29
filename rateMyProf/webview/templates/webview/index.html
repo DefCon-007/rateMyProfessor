@@ -187,22 +187,37 @@
                       confirmButtonText: 'Send Password',
                       showLoaderOnConfirm: true,
                       preConfirm: (login) => {
-                        return fetch(`/generatePassword?email=${login}`)
-                          .then(response => {
-                            if (!response.ok) {
-                              throw new Error(response.statusText)
-                            }
-                            return response.json()
-                          })
-                          .catch(error => {
-                            Swal.showValidationMessage(
-                              `Request failed: ${error}`
-                            )
-                          })
+                          {#var email = ${login};#}
+                          if (login.search("@iitkgp.ac.in") == -1) {
+                              Swal({
+                                    title: "Error",
+                                    text: "Please enter the institute email id.",
+                                    type: "error",
+                                    });
+                              return false;
+                          }
+
+                       else {
+                              return fetch(`/generatePassword?email=${login}`)
+                                  .then(response => {
+                                      if (!response.ok) {
+                                          throw new Error(response.statusText)
+                                      }
+                                      return 1;
+                                      {#return response.json()#}
+                                  })
+                                  .catch(error => {
+                                      Swal.showValidationMessage(
+                                          `Request failed: ${error}`
+                                      );
+                                      return false;
+                                  })
+                          }
                       },
                       allowOutsideClick: () => !Swal.isLoading()
                     }).then((result) => {
-                      if (result.value) {
+                        console.log(result);
+                      if (result.value == 1) {
                         Swal({
                             title: "Success",
                             text: "Password successfully sent to your email id.",
@@ -210,6 +225,7 @@
 
                         })
                       }
+
                     })
 			});
 

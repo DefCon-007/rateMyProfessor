@@ -12,6 +12,7 @@ django-extensions = "*"
 django = "*"
 configparser = "*"
 beautifulsoup4 = "*"
+sendgrid = "*"
 
 [requires]
 python_version = "3.7"
