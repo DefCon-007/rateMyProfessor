@@ -7,7 +7,9 @@ from sendgrid.helpers.mail import *
 def getPassword(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
-
+def addValueToAverage(val,avg, num) :
+    newAvg = avg + ((val -avg)/(num+1))
+    return  newAvg
 
 def sendMail(email, password) :
     sg = sendgrid.SendGridAPIClient(apikey=settings.SENDGRID_API_KEY)

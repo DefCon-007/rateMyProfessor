@@ -146,7 +146,7 @@
   text-indent: 15px;
 }
         </style>
-
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@2.9.1/dist/tagify.min.js"></script>
 </head>
@@ -157,10 +157,8 @@
     var LOGIN_STATUS = {{ loggedIn }}
 </script>
 <div id="particles-js" class="main-form-box">
-{#<a href="#" style="z-index: 1000;position: fixed;top:0;right: 0;">#}
-{#          <span class="glyphicon glyphicon-log-out"></span> Log out#}
-{#        </a>#}
-<input type="button" value="Logout" class="logout" style="z-index: 1000;position: fixed;top:2%;right: 4%;"/>
+
+<input type="button" value="Logout" class="logout"  onclick="window.location='/accounts/logout'" id="logoutButton" style="z-index: 1000;position: fixed;top:2%;right: 4%;"/>
 
 	<div class="md-form">
 
@@ -189,20 +187,32 @@
 							<div class="row">
 								<div class="col-lg-12">
 									<form id="login-form" action="#" method="post" role="form" style="display: block;">
-										<div class="form-group">
+                                        <datalist id="subList">
+                                            {% for sub in subjects %}
+                                                <option value="{{ sub }}">
+                                            {% endfor %}
+								            </datalist>
+                                    <datalist id="profList">
+                                            {% for p in prof %}
+                                                <option value="{{ p }}">
+                                            {% endfor %}
+								            </datalist>
+                                        <div class="form-group">
 											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>
-											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" required="">
+											<input type="text" name="subject" id="subject" tabindex="1" class="form-control" list="subList" placeholder="Subject" value="" required="">
 										</div>
+
+
+                                        <div class="form-group">
+											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>
+											<input type="text" name="professor" id="prof" tabindex="1" class="form-control" list="profList" placeholder="Subject" value="" required="">
+										</div>
+
 										<div class="form-group">
 											<label class="icon-lp"><i class="fas fa-key"></i></label>
 											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" required="">
 										</div>
-										<div class="che-box">
-											<label class="checkbox-in">
-												<input name="checkbox" type="checkbox" tabindex="3" id="remember"> <span></span>
-												Remember Me
-											</label>
-										</div>
+
 										
 										<div class="form-group">
 											<div class="row">
@@ -211,18 +221,11 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group">
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="text-center">
-														<a href="#" tabindex="5" class="forgot-password">Forgot Password?</a>
-													</div>
-												</div>
-											</div>
-										</div>
+
 									</form>
                                     <div id="test">
 									<form id="register-form" action="/login" method="post" role="form" style="display: none;">
+                                        {% csrf_token %}
 {#										<div class="form-group">#}
 {#											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>#}
 {#											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" required="">#}
@@ -248,16 +251,12 @@
 											</li>
 										</ul> -->
 										
-										<div class="che-box">
-											<label class="checkbox-in"> 
-												<input name="checkbox" type="checkbox"> <span></span>I agree to the <a href="#"> Terms and Conditions </a> and <a href="#">Privacy Policy </a>
-											</label>
-										</div>
+
 										
 										<div class="form-group">
 											<div class="row">
 												<div class="col-sm-6 ">
-													<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+													<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Login">
 												</div>
                                                 <div class="col-sm-6">
 {#                                                    <button name="register-submit" id="-submit" tabindex="4" class="form-control btn btn-register">Register button</button>#}
@@ -268,9 +267,20 @@
 									</form>
                                         </div>
                                     <form id="rating-form" action="" method="post" role="form" style="display: none;">
+                                        <div class="form-group">
+											<label class="icon-lp"><i class="fas fa-book"></i></label>
+											<input type="text" name="subject" id="rating-subject" tabindex="1" class="form-control" list="subList" placeholder="Subject" value="" required>
+										</div>
+
+
+                                        <div class="form-group">
+											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>
+											<input type="text" name="professor" id="rating-prof" tabindex="1" class="form-control" list="profList" placeholder="Professor" value="" required>
+										</div>
+
 										<div class="form-group">
                                             <div class="star-rating">How much is the attendance load?<br>(1 Star : Very strict/Have to attend almost all classes<br>5 Star : Ekdum Peace/Can bunk every class)<br>
-                                              <fieldset class="attendance">
+                                              <fieldset data="attendance">
                                                 <input type="radio" id="star5" name="rating1" value="5" class="rating"/><label for="star5" title="Outstanding">5 stars</label>
                                                 <input type="radio" id="star4" name="rating1" value="4" class="rating"/><label for="star4" title="Very Good">4 stars</label>
                                                 <input type="radio" id="star3" name="rating1" value="3" class="rating"/><label for="star3" title="Good">3 stars</label>
@@ -283,7 +293,7 @@
 
                                         <div class="form-group">
                                             <div class="star-rating">How good the professor gives overall grades?<br>(1 Star : Strictly according to the performance<br>5 Star : Looking at you name/face/attendance/gender)<br>
-                                              <fieldset class="attendance">
+                                              <fieldset data="grades">
                                                 <input type="radio" id="star54" name="rating13" value="5" class="rating"/><label for="star54" title="Outstanding">5 stars</label>
                                                 <input type="radio" id="star44" name="rating13" value="4" class="rating"/><label for="star44" title="Very Good">4 stars</label>
                                                 <input type="radio" id="star34" name="rating13" value="3" class="rating"/><label for="star34" title="Good">3 stars</label>
@@ -296,7 +306,7 @@
 
                                         <div class="form-group">
                                             <div class="star-rating">How good the professor gives TA marks? <br>(1 Star : 0/20 or strictly accoding to class/test performance<br>5 Star : 20/20 or according to how much you can beg!)<br>
-                                              <fieldset class="taMarks">
+                                              <fieldset data="taMarks">
                                                 <input type="radio" id="star511" name="rating2" value="5" class="rating"/><label for="star511" title="Outstanding">5 stars</label>
                                                 <input type="radio" id="star411" name="rating2" value="4" class="rating"/><label for="star411" title="Very Good">4 stars</label>
                                                 <input type="radio" id="star311" name="rating2" value="3" class="rating"/><label for="star311" title="Good">3 stars</label>
@@ -309,7 +319,7 @@
 
                                         <div class="form-group">
                                             <div class="star-rating">How much is the professor strict about class timings? i.e. Allowing to enter class on being late<br>(1 Star : Will not allow even if 5 minutes late<br>5 Star : Doesn't care when you enter the class)<br>
-                                              <fieldset class="timing">
+                                              <fieldset data="timing">
                                                 <input type="radio" id="star51" name="rating21" value="5" class="rating"/><label for="star51" title="Outstanding">5 stars</label>
                                                 <input type="radio" id="star41" name="rating21" value="4" class="rating"/><label for="star41" title="Very Good">4 stars</label>
                                                 <input type="radio" id="star31" name="rating21" value="3" class="rating"/><label for="star31" title="Good">3 stars</label>
@@ -322,7 +332,7 @@
 
                                         <div class="form-group">
 											<label class="label-tag">Kindly add some short tags for your fellow mates.</label>
-                                            <input name='tags' class="form-control" autofocus>
+                                            <input name='tags' id="rating-tags" class="form-control" autofocus>
 
 {#											<input type="text" name="tags" id="tags" tabindex="2" class="form-control" placeholder="">#}
 										</div>
@@ -377,7 +387,7 @@
 				$('#login-form-link').removeClass('active');
 				$('#register-form-link').removeClass('active');
 				$(this).addClass('active');
-				attachForm(true)
+				attachForm()
 				e.preventDefault();
 			});
 			$('#getpassword-button').click(function(e) {
@@ -434,7 +444,10 @@
 			});
 
 		});
-		
+
+		$('#rating-submit').click(function(e) {
+		    sendRating();
+        });
 		$('.form-group input').focus(function () {
 			$(this).parent().addClass('addcolor');
 		}).blur(function () {
@@ -451,8 +464,6 @@
         var ratingForm  = document.getElementById("rating-form");
         if ((LOGIN_STATUS) || (flag)){
             console.log("logged in");
-            {#$("#register-form").toggle();#}
-            {#loginForm.hide();#}
             loginForm.style.display = "none" ;
             ratingForm.style.display = "block";
         }
@@ -467,17 +478,91 @@
     }
 
     {#Getting the rating from radio buttons#}
-   $('.rating').click(function(e) {
+    var ratingObj = new Object()
+   $('.rating').change(function(e) {
        console.log(e);
-        var classn = $(this).parent().attr('class');
+        var key = $(this).parent().attr('data');
         var val = $(this).attr('value');
-        console.log($(this).attr('name'))
-        console.log(classn);
+        ratingObj[key] = val;
+        console.log(key);
         console.log(val);
+
+        console.log(ratingObj)
       });
-var input = document.querySelector('input[name=tags]'),
+    function sendRating() {
+        console.log(document.getElementById("rating-tags").value)
+          if (!($("#rating-form")[0].checkValidity())) {
+                    $("#rating-form")[0].reportValidity();
+                }
+                else {
+                    {#Send data#}
+                    var sub = document.getElementById("rating-subject").value;
+                    var prof = document.getElementById("rating-prof").value;
+                    var tags = document.getElementById("rating-tags").value;
+                    ratingObj["tags"] = tags;
+                    ratingObj["subject"] = sub
+                    ratingObj["prof"] = prof;
+                       var csrftoken = Cookies.get('csrftoken');
+                        let url = "{% url 'addrating' %}" ;
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4) {
+                            var obj = JSON.parse(this.responseText);
+                            console.log(obj)
+                            Swal({
+                                title : capitalizeFirstLetter(obj["swalStatus"]),
+                                text :obj["msg"],
+                                type : obj["swalStatus"],
+                                onClose :  () => {
+                                                if ((obj["swalStatus"] == "success")) {
+                                                    window.location.replace("{% url 'index' %}");
+                                                    {#document.getElementById("rating-form").reset();#}
+                                                    {#document.getElementById("rating-tags").data('tagify').removeAllTags();#}
+                                                    {#tagify.removeAllTags();#}
+                                                }
+                                              }
+                            });
+
+
+                        }
+                      };
+                      xhttp.open("POST", url, true);
+                      xhttp.setRequestHeader("Content-Type", "application/json");
+                      xhttp.setRequestHeader("Data-Type", "json");
+                      xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                      xhttp.send(JSON.stringify(ratingObj));
+                }
+
+
+    }
+
+
+function sendRequest(data, url) {
+     var csrftoken = Cookies.get('csrftoken');
+    {#let url = "{% url 'markattendance' %}" ;#}
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+         document.open();
+        document.write(this.responseText);
+        document.close();
+        {#location.reload(true);#}
+     {#document.getElementById("demo").innerHTML = this.responseText;#}
+    }
+  };
+  xhttp.open("POST", url, true);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+  xhttp.send(JSON.stringify(data));
+}
+
+
+
+
+var Taginput = document.querySelector('input[name=tags]'),
     // init Tagify script on the above inputs
-    tagify = new Tagify(input, {
+    tagify = new Tagify(Taginput, {
 tagTemplate : function(v, tagData){
     return `<tag title='${v}'>
                     <x title=''></x>
@@ -497,31 +582,51 @@ tagify.on('add', onAddTag)
 
 // tag added callback
 function onAddTag(e){
-    console.log(e.detail);
-    console.log("original input value: ", input.value)
+    {#console.log(e.detail);#}
+    {#console.log("original input value: ", input.value)#}
     tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
 }
 
 // tag remvoed callback
 function onRemoveTag(e){
-    console.log(e.detail);
+    {#console.log(e.detail);#}
     console.log("tagify instance value:", tagify.value)
 }
 
 // on character(s) added/removed (user is typing/deleting)
 function onInput(e){
-    console.log(e.detail);
+    {#console.log(e.detail);#}
 }
 
 // invalid tag added callback
 function onInvalidTag(e){
-    console.log(e.detail);
+    {#console.log(e.detail);#}
 }
 
 // invalid tag added callback
 function onTagClick(e){
-    console.log(e.detail);
+    {#console.log(e.detail);#}
 }
+
+
+function changeLoginStatus(flag=false) {
+    if ((LOGIN_STATUS) || (flag)){
+        {#console.log(flag);#}
+        {#console.log(LOGIN_STATUS);#}
+        document.getElementById("logoutButton").style.display = "block"
+    }else {
+        document.getElementById("logoutButton").style.display = "none"
+    }
+}
+changeLoginStatus()
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+
 	</script>
+
 </body>
 </html>

@@ -147,10 +147,53 @@ FACULTY_DEPARTMENT_DICT = {'AE': 'Aerospace Engineering',
                            'RX': 'Rekhi Centre of Excellence for the Science of Happiness',
                            'WM': 'School of Water Resources'}
 
+FACULTY_DEPARTMENT_DICT_REVERSE = {'Advanced Technology Development Centre': 'AT',
+                                     'Aerospace Engineering': 'AE',
+                                     'Agricultural and Food Engineering': 'AG',
+                                     'Architecture and Regional Planning': 'AR',
+                                     'Bio Science': 'BS',
+                                     'Biotechnology': 'BT',
+                                     'Centre For Educational Technology': 'ET',
+                                     'Centre For Oceans,Rivers,Atmosphere and Land Science': 'CL',
+                                     'Centre for Computational and Data Sciences': 'CD',
+                                     'Chemical Engineering': 'CH',
+                                     'Chemistry': 'CY',
+                                     'Civil Engineering': 'CE',
+                                     'Computer Science and Engineering': 'CS',
+                                     'Cryogenic  Engineering': 'CR',
+                                     'Deysarkar Centre of Excellence in Petroleum Engineering': 'DE',
+                                     'Electrical Engineering': 'EE',
+                                     'Electronics and Electrical Communication Engg.': 'EC',
+                                     'Energy Science and Engineering': 'ES',
+                                     'Environmental Science and Engineering': 'EF',
+                                     'G.S Sanyal School of Telecommunication': 'GS',
+                                     'Geology and Geophysics': 'GG',
+                                     'Humanities and Social Sciences': 'HS',
+                                     'Industrial and Systems Engineering': 'IM',
+                                     'Materials Science Centre': 'MS',
+                                     'Mathematics': 'MA',
+                                     'Mechanical Engineering': 'ME',
+                                     'Metallurgical and Materials Engineering': 'MT',
+                                     'Mining Engineering': 'MI',
+                                     'Ocean Engg and Naval Architecture': 'NA',
+                                     'Physics': 'PH',
+                                     'Rajendra Mishra School of Engg Entrepreneurship': 'RJ',
+                                     'Rajiv Gandhi School of Intellectual Property Law': 'IP',
+                                     'Ranbir and Chitra Gupta School of Infrastructure Design and Mngt.': 'ID',
+                                     'Rekhi Centre of Excellence for the Science of Happiness': 'RX',
+                                     'Rubber Technology': 'RT',
+                                     'Rural Development': 'RD',
+                                     'School of Medical Science and Technology': 'MM',
+                                     'School of Water Resources': 'WM',
+                                     'Subir Chowdhury School of Quality and Reliability': 'RE',
+                                     'Vinod Gupta School of Management': 'BM'}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+
+LOGOUT_REDIRECT_URL = "index"
 
 TIME_ZONE = 'UTC'
 
