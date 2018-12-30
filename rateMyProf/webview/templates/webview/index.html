@@ -49,7 +49,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway:100'>
-{#<script src="{% static '/webview/js/jquery.min.js' %}"></script>#}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
@@ -61,7 +60,9 @@
     <link rel="shortcut icon" href="{% static '/webview/favicon/favicon.ico' %}" type="image/x-icon">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{% static '/webview/css/bootstrap.min.css' %}">
+{#    <link rel="stylesheet" href="{% static '/webview/css/bootstrap.min.css' %}">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 	<!-- Site CSS -->
     <link rel="stylesheet" href="{% static '/webview/css/style.css' %}">
 	<!-- Fontawesome CSS -->
@@ -611,7 +612,7 @@ function capitalizeFirstLetter(string) {
 
 
 
-<script src="{% static '/webview/js/bootstrap.min.js' %}"></script>
+{#<script src="{% static '/webview/js/bootstrap.min.js' %}"></script>#}
 <script src="{% static '/webview/js/particles.min.js' %}"></script>
 <script src="{% static '/webview/js/index.js' %}"></script>
 	<script type="text/javascript">
