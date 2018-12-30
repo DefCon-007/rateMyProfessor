@@ -5,10 +5,10 @@ from django.conf import settings
 
 
 class Professor(models.Model) :
-    name = models.CharField(max_length=50)
-    departmentCode = models.CharField(max_length=5)
+    name = models.CharField(max_length=75)
+    departmentCode = models.CharField(max_length=10)
     website = models.URLField()
-    designation = models.CharField(max_length=50)
+    designation = models.CharField(max_length=75)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class Professor(models.Model) :
 
 class Subject(models.Model) :
     code = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=150)
     credits = models.IntegerField()
 
     def __str__(self):
