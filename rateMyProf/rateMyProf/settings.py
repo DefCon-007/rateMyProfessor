@@ -28,7 +28,7 @@ SECRET_KEY = config.get("core", "SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config.getboolean("core", "DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 

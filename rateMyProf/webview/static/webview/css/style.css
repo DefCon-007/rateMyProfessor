@@ -156,7 +156,8 @@ html, body{
 }
 
 .main-form-box{
-	background: url(../images/bg_01.jpg) no-repeat center;
+	/*background: url(../images/bg_01.jpg) no-repeat center;*/
+	background-color: black;
 	background-size: cover;
 	height: 100%;
 	overflow: visible;
