@@ -98,17 +98,24 @@ def getRating(request) :
     data = json.loads(request.body)
     errorMsg = "Some internal error occurred. Please try again later."
     print(data)
-    subDataList = data["subject"].split("-")
-    subject, Sstatus = database.getSubjectFromCode(subDataList[0].strip())
-    profDataList = data["prof"].split("-")
-    prof, Pstatus = database.getProfessor(profDataList[0].strip(),
-                                          settings.FACULTY_DEPARTMENT_DICT_REVERSE[profDataList[1].strip()])
-    if Sstatus and Pstatus :
-        rateObj, status = database.getFinaRating(subject, prof)
-        if status :
-            return JsonResponse({"attendance" : rateObj.attendance*20, "ta" :rateObj.ta*20, "grade" : rateObj.grade*20 , "time" : rateObj.timing*20, "tags" : ",".join(json.loads(rateObj.tags))}, status=200)
+    try :
+        subDataList = data["subject"].split("-")
+        subject, Sstatus = database.getSubjectFromCode(subDataList[0].strip())
+        profDataList = data["prof"].split("-")
+        prof, Pstatus = database.getProfessor(profDataList[0].strip(),
+                                              settings.FACULTY_DEPARTMENT_DICT_REVERSE[profDataList[1].strip()])
+        if Sstatus and Pstatus :
+            rateObj, status = database.getFinaRating(subject, prof)
+            if status :
+                return JsonResponse({"attendance" : rateObj.attendance*20, "ta" :rateObj.ta*20, "grade" : rateObj.grade*20 , "time" : rateObj.timing*20, "tags" : ",".join(json.loads(rateObj.tags))}, status=200)
+            else :
+                errorMsg = rateObj
         else :
-            errorMsg = rateObj
-    else :
-        errorMsg = "Invalid Subject or Professor"
+            errorMsg = "Invalid Subject or Professor"
+    except IndexError as e :
+        errorMsg = "Please select both subject and professor"
+        capture_exception(e)
+    except Exception as e :
+        capture_exception(e)
+
     return JsonResponse({"msg": errorMsg, "swalStatus": "error"}, status=400)
