@@ -68,6 +68,7 @@
     <link rel="stylesheet" href="{% static '/webview/css/all.min.css' %}">
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{% static '/webview/css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static '/webview/css/loading.css' %}">
     <!-- Custom CSS -->
 {#    <link rel="stylesheet" href="{% static '/webview/css/custom.css' %}">#}
 
@@ -317,6 +318,8 @@
         </div>
     </div>
 <script>
+
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -786,6 +789,14 @@ function capitalizeFirstLetter(string) {
                 $("#login-form")[0].reportValidity();
             }
             else {
+           Swal({
+                allowOutsideClick : false,
+                showConfirmButton : false,
+               allowEscapeKey : false,
+
+  html:
+    '<div class="ld ld-ring ld-spin" style="font-size:64px;color:#5b487a;  text-align: center;"></div> <br> <p style="text-align: center;">Processing</p>',
+});
                 {#Send data#}
                 var sub = document.getElementById("final-rating-subject").value;
                 var prof = document.getElementById("final-rating-prof").value;
@@ -808,7 +819,12 @@ function capitalizeFirstLetter(string) {
 
                                         });
                             document.getElementById("final-rating-form").style.display = "block";
+                            Swal({
+                                title : "Success",
+                                text :"Rating Successfully received",
+                                type : "success",
 
+                            });
                         }
                         else {
 
