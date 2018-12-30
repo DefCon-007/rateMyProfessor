@@ -210,5 +210,5 @@ ENV/
 
 # mkdocs documentation
 /site
-devConfig.ini
+config.ini
 db.sqlite3
