@@ -239,7 +239,7 @@
 											</div>
 										</div>
                                  </form>
-                                <form id="show-rating-form" style="display: none;">
+                                <form id="final-rating-form" style="display: none;">
                                         <div class="form-group" style="margin-top: 15%;">
                                             <div class="star-rating">How much peace is the attendance <br>(1 Star : Very strict/Have to attend almost all classes<br>5 Star : Ekdum Peace/Can bunk every class)<br>
 
@@ -302,65 +302,14 @@
                                             </div>
 
                                         </div>
-{##}
-{#                                        <div class="form-group">#}
-{#                                            <div class="star-rating">How much is the professor strict about class timings? i.e. Allowing to enter class on being late<br>(1 Star : Will not allow even if 5 minutes late<br>5 Star : Doesn't care when you enter the class)<br>#}
-{#                                              <fieldset data="timing">#}
-{#                                                <input type="radio" id="star51" name="rating21" value="5" class="rating"/><label for="star51" title="Outstanding">5 stars</label>#}
-{#                                                <input type="radio" id="star41" name="rating21" value="4" class="rating"/><label for="star41" title="Very Good">4 stars</label>#}
-{#                                                <input type="radio" id="star31" name="rating21" value="3" class="rating"/><label for="star31" title="Good">3 stars</label>#}
-{#                                                <input type="radio" id="star21" name="rating21" value="2" class="rating"/><label for="star21" title="Poor">2 stars</label>#}
-{#                                                <input type="radio" id="star11" name="rating21" value="1" class="rating"/><label for="star11" title="Very Poor">1 star</label>#}
-{#                                              </fieldset>#}
-{#                                            </div>#}
-{##}
-{#                                        </div>#}
 
                                         <div class="form-group" style="margin-top: 15%;">
 											<label class="label-tag">Some of the tags from your fellow mates.</label>
-                                            <input name='tags' id="show-rating-tags" class="form-control" autofocus>
-
-{#											<input type="text" name="tags" id="tags" tabindex="2" class="form-control" placeholder="">#}
-										</div>
-									<!-- 	<ul>
-											<li>
-												<button class="fb"><i class="fab fa-facebook-f"></i> Connect with Facebook</button>
-											</li>
-											<li>
-												<button class="tw"><i class="fab fa-twitter"></i> Connect with Twitter</button>
-											</li>
-										</ul> -->
+                                            <input id="show-rating-tags" class="form-control" value="sample,tag" readonly>
+                                        </div>
 
 									</form>
-{#									<form id="login-form" action="#" method="post" role="form" style="display: block;">#}
-{#                                      #}
-{#                                        <div class="form-group">#}
-{#											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>#}
-{#											<input type="text" name="subject" id="subject" tabindex="1" class="form-control" list="subList" placeholder="Subject" value="" required="">#}
-{#										</div>#}
-{##}
-{##}
-{#                                        <div class="form-group">#}
-{#											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>#}
-{#											<input type="text" name="professor" id="prof" tabindex="1" class="form-control" list="profList" placeholder="Subject" value="" required="">#}
-{#										</div>#}
-{##}
-{#										<div class="form-group">#}
-{#											<label class="icon-lp"><i class="fas fa-key"></i></label>#}
-{#											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" required="">#}
-{#										</div>#}
-{##}
-{#										#}
-{#										<div class="form-group">#}
-{#											<div class="row">#}
-{#												<div class="col-sm-6 offset-sm-3">#}
-{#													<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">#}
-{#												</div>#}
-{#											</div>#}
-{#										</div>#}
-{##}
-{#									</form>#}
-
+                                    <div id="register-form-container">
 									<form id="register-form" action="/login" method="post" role="form" style="display: none;">
                                         {% csrf_token %}
 {#										<div class="form-group">#}
@@ -435,7 +384,7 @@
                                                 <input type="radio" id="star44" name="rating13" value="4" class="rating"/><label for="star44" title="Very Good">4 stars</label>
                                                 <input type="radio" id="star34" name="rating13" value="3" class="rating"/><label for="star34" title="Good">3 stars</label>
                                                 <input type="radio" id="star24" name="rating13" value="2" class="rating"/><label for="star24" title="Poor">2 stars</label>
-                                                <input type="radio" id="star14" name="rating13" value="13" class="rating"/><label for="star14" title="Very Poor">1 star</label>
+                                                <input type="radio" id="star14" name="rating13" value="1" class="rating"/><label for="star14" title="Very Poor">1 star</label>
                                               </fieldset>
                                             </div>
 
@@ -600,7 +549,7 @@
     function attachForm(flag=false){
         console.log(LOGIN_STATUS);
         {#var tagIdToDisplay = {{ tagIdToDisplay }};#}
-        var loginForm = document.getElementById("test");
+        var loginForm = document.getElementById("register-form-container");
         var ratingForm  = document.getElementById("rating-form");
         if ((LOGIN_STATUS) || (flag)){
             console.log("logged in");
@@ -676,52 +625,56 @@
 
     }
 
-        function getFinalRating() {
-        console.log(document.getElementById("rating-tags").value)
-          if (!($("#rating-form")[0].checkValidity())) {
-                    $("#rating-form")[0].reportValidity();
-                }
-                else {
-                    {#Send data#}
-                    var sub = document.getElementById("rating-subject").value;
-                    var prof = document.getElementById("rating-prof").value;
-                    var tags = document.getElementById("rating-tags").value;
-                    ratingObj["tags"] = tags;
-                    ratingObj["subject"] = sub
-                    ratingObj["prof"] = prof;
-                       var csrftoken = Cookies.get('csrftoken');
-                        let url = "{% url 'addrating' %}" ;
-                        var xhttp = new XMLHttpRequest();
-                        xhttp.onreadystatechange = function() {
-                        if (this.readyState == 4) {
-                            var obj = JSON.parse(this.responseText);
-                            console.log(obj)
+    function getFinalRating() {
+      if (!($("#final-rating-form")[0].checkValidity())) {
+                $("#final-rating-form")[0].reportValidity();
+            }
+            else {
+                {#Send data#}
+                var sub = document.getElementById("final-rating-subject").value;
+                var prof = document.getElementById("final-rating-prof").value;
+                   var csrftoken = Cookies.get('csrftoken');
+                    let url = "{% url 'getrating' %}" ;
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        var obj = JSON.parse(this.responseText);
+                         console.log(obj)
+                        if (this.status ==200){
+                            document.getElementById("attendanceRate").style.width = obj["attendance"] + "%";
+                            document.getElementById("taRate").style.width = obj["ta"] + "%";
+                            document.getElementById("gradeRate").style.width = obj["grade"] + "%";
+                            document.getElementById("timeRate").style.width = obj["time"] + "%";
+                            document.getElementById("show-rating-tags").setAttribute("value", obj["tags"]) ;
+                            var inputFinalTag = document.querySelector('input[id=show-rating-tags]'),
+                                        // init Tagify script on the above inputs
+                                        tagify = new Tagify(inputFinalTag, {
+
+                                        });
+                            document.getElementById("final-rating-form").style.display = "block";
+
+                        }
+                        else {
+
                             Swal({
                                 title : capitalizeFirstLetter(obj["swalStatus"]),
                                 text :obj["msg"],
                                 type : obj["swalStatus"],
-                                onClose :  () => {
-                                                if ((obj["swalStatus"] == "success")) {
-                                                    window.location.replace("{% url 'index' %}");
-                                                    {#document.getElementById("rating-form").reset();#}
-                                                    {#document.getElementById("rating-tags").data('tagify').removeAllTags();#}
-                                                    {#tagify.removeAllTags();#}
-                                                }
-                                              }
+
                             });
 
-
                         }
-                      };
-                      xhttp.open("POST", url, true);
-                      xhttp.setRequestHeader("Content-Type", "application/json");
-                      xhttp.setRequestHeader("Data-Type", "json");
-                      xhttp.setRequestHeader("X-CSRFToken", csrftoken);
-                      xhttp.send(JSON.stringify(ratingObj));
-                }
+                    }
+                  };
+                  xhttp.open("POST", url, true);
+                  xhttp.setRequestHeader("Content-Type", "application/json");
+                  xhttp.setRequestHeader("Data-Type", "json");
+                  xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                  xhttp.send(JSON.stringify({"subject" : sub, "prof" : prof}));
+            }
 
 
-    }
+}
 
 
 function sendRequest(data, url) {

@@ -48,7 +48,6 @@ def getRating(subject,prof) :
 
 def addNewrating(subject,prof,user,attendance,taMarks,grades,timing, tags) :
     try :
-        print()
         rat, ratExist = rating.objects.get_or_create(subject=subject, professor=prof, user=user)
         if not ratExist :
             return "You cannot rate the same Subject and Faculty again!", False
@@ -92,4 +91,16 @@ def addNewrating(subject,prof,user,attendance,taMarks,grades,timing, tags) :
             return  "Rating successfully saved", True
     except Exception as e :
         print(e)
-        return str(e), False
+        return "Internal error occurred. Please try again later", False
+
+
+def getFinaRating(sub,prof) :
+    try :
+        ratingList = finalRatings.objects.filter(subject=sub, professor=prof)
+        if not (len(ratingList) == 0) :
+            return ratingList[0], True
+        else :
+            return "Rating for specified Subject and Professor does not exist", False
+    except Exception as e:
+        print(e)
+        return "Internal error occurred. Please try again later", False
