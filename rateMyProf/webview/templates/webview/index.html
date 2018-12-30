@@ -145,6 +145,30 @@
   {#background-position: 65px 5px;#}
   text-indent: 15px;
 }
+
+        .containerdiv {
+ border: 0;
+  position: relative;
+            {#margin-right: 50%;#}
+  {#width: 300px;#}
+  width: 167.96px;
+            {#margin-bottom: 2%;#}
+            text-align: center
+}
+.cornerimage {
+  {#border: 0;#}
+    display: inline-block;
+  position: absolute;
+  {#top: 0;#}
+  {#  left: 0;#}
+  overflow: hidden;
+ }
+ .imgStar{
+
+   max-width: 167.96px;
+
+
+ }
         </style>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
@@ -186,8 +210,7 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12">
-									<form id="login-form" action="#" method="post" role="form" style="display: block;">
-                                        <datalist id="subList">
+                                      <datalist id="subList">
                                             {% for sub in subjects %}
                                                 <option value="{{ sub }}">
                                             {% endfor %}
@@ -197,33 +220,147 @@
                                                 <option value="{{ p }}">
                                             {% endfor %}
 								            </datalist>
+                                 <form id="login-form" action="" method="post" role="form" style="display: block;">
+                                        <div class="form-group">
+											<label class="icon-lp"><i class="fas fa-book"></i></label>
+											<input type="text" name="subject" id="final-rating-subject" tabindex="1" class="form-control" list="subList" placeholder="Subject" value="" required>
+										</div>
+
+
                                         <div class="form-group">
 											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>
-											<input type="text" name="subject" id="subject" tabindex="1" class="form-control" list="subList" placeholder="Subject" value="" required="">
+											<input type="text" name="professor" id="final-rating-prof" tabindex="1" class="form-control" list="profList" placeholder="Professor" value="" required>
 										</div>
-
-
-                                        <div class="form-group">
-											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>
-											<input type="text" name="professor" id="prof" tabindex="1" class="form-control" list="profList" placeholder="Subject" value="" required="">
-										</div>
-
-										<div class="form-group">
-											<label class="icon-lp"><i class="fas fa-key"></i></label>
-											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" required="">
-										</div>
-
-										
-										<div class="form-group">
+                                     <div class="form-group" >
 											<div class="row">
 												<div class="col-sm-6 offset-sm-3">
-													<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+													<input type="button" name="rating-submit" id="final-rating-submit" tabindex="4" class="form-control btn btn-login" value="Submit">
 												</div>
 											</div>
 										</div>
+                                 </form>
+                                <form id="show-rating-form" style="display: none;">
+                                        <div class="form-group" style="margin-top: 15%;">
+                                            <div class="star-rating">How much peace is the attendance <br>(1 Star : Very strict/Have to attend almost all classes<br>5 Star : Ekdum Peace/Can bunk every class)<br>
+
+                                                    <div class="containerdiv">
+                                                        <div class="cornerimage">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStarEmpty.png' %}" alt="img">
+                                                        </div>
+                                                        <div class="cornerimage" id="attendanceRate" style="width:100%;">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStartFull.png' %}" alt="">
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+
+                                        </div>
+                                    <br>
+                                        <div class="form-group" style="margin-top: 15%;">
+                                            <div class="star-rating">How good the professor gives overall grades?<br>(1 Star : Strictly according to the performance<br>5 Star : Looking at your name/face/attendance/gender)<br>
+                                                    <div class="containerdiv">
+                                                        <div class="cornerimage">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStarEmpty.png' %}" alt="img">
+                                                        </div>
+                                                        <div class="cornerimage" id ="gradeRate" style="width:75%;">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStartFull.png' %}" alt="">
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+
+                                        </div>
+
+                                     <br>
+                                        <div class="form-group" style="margin-top: 15%;">
+                                            <div class="star-rating">How good the professor gives TA marks? <br>(1 Star : 0/20 or strictly according to class/test performance<br>5 Star : 20/20 or according to how much you can beg!)<br>
+                                                    <div class="containerdiv">
+                                                        <div class="cornerimage">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStarEmpty.png' %}" alt="img">
+                                                        </div>
+                                                        <div class="cornerimage" id ="taRate" style="width:25%;">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStartFull.png' %}" alt="">
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+
+                                        </div>
+
+                                     <br>
+                                        <div class="form-group" style="margin-top: 15%;">
+                                            <div class="star-rating">How much is the professor strict about class timings? i.e. Allowing to enter class on being late<br>(1 Star : Will not allow even if 5 minutes late<br>5 Star : Doesn't care when you enter the class)<br>
+                                                    <div class="containerdiv">
+                                                        <div class="cornerimage">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStarEmpty.png' %}" alt="img">
+                                                        </div>
+                                                        <div class="cornerimage" id ="timeRate" style="width:45%;">
+                                                        <img class = "imgStar" src="{% static 'webview/images/purpleStartFull.png' %}" alt="">
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+
+                                        </div>
+{##}
+{#                                        <div class="form-group">#}
+{#                                            <div class="star-rating">How much is the professor strict about class timings? i.e. Allowing to enter class on being late<br>(1 Star : Will not allow even if 5 minutes late<br>5 Star : Doesn't care when you enter the class)<br>#}
+{#                                              <fieldset data="timing">#}
+{#                                                <input type="radio" id="star51" name="rating21" value="5" class="rating"/><label for="star51" title="Outstanding">5 stars</label>#}
+{#                                                <input type="radio" id="star41" name="rating21" value="4" class="rating"/><label for="star41" title="Very Good">4 stars</label>#}
+{#                                                <input type="radio" id="star31" name="rating21" value="3" class="rating"/><label for="star31" title="Good">3 stars</label>#}
+{#                                                <input type="radio" id="star21" name="rating21" value="2" class="rating"/><label for="star21" title="Poor">2 stars</label>#}
+{#                                                <input type="radio" id="star11" name="rating21" value="1" class="rating"/><label for="star11" title="Very Poor">1 star</label>#}
+{#                                              </fieldset>#}
+{#                                            </div>#}
+{##}
+{#                                        </div>#}
+
+                                        <div class="form-group" style="margin-top: 15%;">
+											<label class="label-tag">Some of the tags from your fellow mates.</label>
+                                            <input name='tags' id="show-rating-tags" class="form-control" autofocus>
+
+{#											<input type="text" name="tags" id="tags" tabindex="2" class="form-control" placeholder="">#}
+										</div>
+									<!-- 	<ul>
+											<li>
+												<button class="fb"><i class="fab fa-facebook-f"></i> Connect with Facebook</button>
+											</li>
+											<li>
+												<button class="tw"><i class="fab fa-twitter"></i> Connect with Twitter</button>
+											</li>
+										</ul> -->
 
 									</form>
-                                    <div id="test">
+{#									<form id="login-form" action="#" method="post" role="form" style="display: block;">#}
+{#                                      #}
+{#                                        <div class="form-group">#}
+{#											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>#}
+{#											<input type="text" name="subject" id="subject" tabindex="1" class="form-control" list="subList" placeholder="Subject" value="" required="">#}
+{#										</div>#}
+{##}
+{##}
+{#                                        <div class="form-group">#}
+{#											<label class="icon-lp"><i class="fas fa-user-tie"></i></label>#}
+{#											<input type="text" name="professor" id="prof" tabindex="1" class="form-control" list="profList" placeholder="Subject" value="" required="">#}
+{#										</div>#}
+{##}
+{#										<div class="form-group">#}
+{#											<label class="icon-lp"><i class="fas fa-key"></i></label>#}
+{#											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" required="">#}
+{#										</div>#}
+{##}
+{#										#}
+{#										<div class="form-group">#}
+{#											<div class="row">#}
+{#												<div class="col-sm-6 offset-sm-3">#}
+{#													<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{##}
+{#									</form>#}
+
 									<form id="register-form" action="/login" method="post" role="form" style="display: none;">
                                         {% csrf_token %}
 {#										<div class="form-group">#}
@@ -292,7 +429,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="star-rating">How good the professor gives overall grades?<br>(1 Star : Strictly according to the performance<br>5 Star : Looking at you name/face/attendance/gender)<br>
+                                            <div class="star-rating">How good the professor gives overall grades?<br>(1 Star : Strictly according to the performance<br>5 Star : Looking at your name/face/attendance/gender)<br>
                                               <fieldset data="grades">
                                                 <input type="radio" id="star54" name="rating13" value="5" class="rating"/><label for="star54" title="Outstanding">5 stars</label>
                                                 <input type="radio" id="star44" name="rating13" value="4" class="rating"/><label for="star44" title="Very Good">4 stars</label>
@@ -305,7 +442,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="star-rating">How good the professor gives TA marks? <br>(1 Star : 0/20 or strictly accoding to class/test performance<br>5 Star : 20/20 or according to how much you can beg!)<br>
+                                            <div class="star-rating">How good the professor gives TA marks? <br>(1 Star : 0/20 or strictly according to class/test performance<br>5 Star : 20/20 or according to how much you can beg!)<br>
                                               <fieldset data="taMarks">
                                                 <input type="radio" id="star511" name="rating2" value="5" class="rating"/><label for="star511" title="Outstanding">5 stars</label>
                                                 <input type="radio" id="star411" name="rating2" value="4" class="rating"/><label for="star411" title="Very Good">4 stars</label>
@@ -448,6 +585,9 @@
 		$('#rating-submit').click(function(e) {
 		    sendRating();
         });
+		$('#final-rating-submit').click(function(e) {
+		    getFinalRating();
+        });
 		$('.form-group input').focus(function () {
 			$(this).parent().addClass('addcolor');
 		}).blur(function () {
@@ -490,6 +630,53 @@
         console.log(ratingObj)
       });
     function sendRating() {
+        console.log(document.getElementById("rating-tags").value)
+          if (!($("#rating-form")[0].checkValidity())) {
+                    $("#rating-form")[0].reportValidity();
+                }
+                else {
+                    {#Send data#}
+                    var sub = document.getElementById("rating-subject").value;
+                    var prof = document.getElementById("rating-prof").value;
+                    var tags = document.getElementById("rating-tags").value;
+                    ratingObj["tags"] = tags;
+                    ratingObj["subject"] = sub
+                    ratingObj["prof"] = prof;
+                       var csrftoken = Cookies.get('csrftoken');
+                        let url = "{% url 'addrating' %}" ;
+                        var xhttp = new XMLHttpRequest();
+                        xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4) {
+                            var obj = JSON.parse(this.responseText);
+                            console.log(obj)
+                            Swal({
+                                title : capitalizeFirstLetter(obj["swalStatus"]),
+                                text :obj["msg"],
+                                type : obj["swalStatus"],
+                                onClose :  () => {
+                                                if ((obj["swalStatus"] == "success")) {
+                                                    window.location.replace("{% url 'index' %}");
+                                                    {#document.getElementById("rating-form").reset();#}
+                                                    {#document.getElementById("rating-tags").data('tagify').removeAllTags();#}
+                                                    {#tagify.removeAllTags();#}
+                                                }
+                                              }
+                            });
+
+
+                        }
+                      };
+                      xhttp.open("POST", url, true);
+                      xhttp.setRequestHeader("Content-Type", "application/json");
+                      xhttp.setRequestHeader("Data-Type", "json");
+                      xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+                      xhttp.send(JSON.stringify(ratingObj));
+                }
+
+
+    }
+
+        function getFinalRating() {
         console.log(document.getElementById("rating-tags").value)
           if (!($("#rating-form")[0].checkValidity())) {
                     $("#rating-form")[0].reportValidity();
