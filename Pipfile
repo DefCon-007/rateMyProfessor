@@ -13,6 +13,7 @@ django = "*"
 configparser = "*"
 beautifulsoup4 = "*"
 sendgrid = "*"
+sentry-sdk = "==0.6.4"
 
 [requires]
 python_version = "3.7"

@@ -3,6 +3,12 @@ import random
 import sendgrid
 from django.conf import settings
 from sendgrid.helpers.mail import *
+from sentry_sdk import capture_message
+from django.shortcuts import redirect
+
+def redirect_with_context(request, to, context):
+    request.session['redirect_context'] = context
+    return redirect(to)
 
 def getPassword(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -23,6 +29,7 @@ def sendMail(email, password) :
     if 200 <= response.status_code < 300:
         return True
     else:
+        capture_message(f"Unable to send password to {email}\nStatus : {response.status_code}\nResponse : {response.body}")
         return False
     # print(response.status_code)
     # print(response.body)

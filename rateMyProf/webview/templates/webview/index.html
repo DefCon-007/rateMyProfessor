@@ -10,10 +10,10 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
  
      <!-- Site Metas -->
-    <title>Login and Register tabbed form</title>  
+    <title>Rate My Professor</title>
     <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="A webapp to rate the professors">
+    <meta name="author" content="Ayush Goyal">
 
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static '/webview/favicon/apple-icon-57x57.png' %}">
@@ -40,7 +40,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Raleway:100'>
-
+{#<script src="{% static '/webview/js/jquery.min.js' %}"></script>#}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 {#    Rating styles End#}
@@ -188,17 +189,136 @@
 
 
  }
+
+        {#Preloader#}
+        .preloader-area {
+    position: fixed;
+    background: #fff;
+    z-index: 11000;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.spinner {
+    margin: auto;
+    z-index: 99999;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    margin-left: -20px;
+    top: 50%;
+    -webkit-animation: sk-rotate 2.0s infinite linear;
+    animation: sk-rotate 2.0s infinite linear;
+}
+
+.dot1,
+.dot2{
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: black;
+    border-radius: 100%;
+    -webkit-animation: sk-bounce 1.0s infinite ease-in-out;
+    animation: sk-bounce 3.0s infinite ease-in-out;
+}
+
+.dot1 {
+    background-color: #755c9e;
+}
+
+.dot2 {
+    top: auto;
+    background-color: #333841;
+    bottom: 0;
+    -webkit-animation-delay: -2.0s;
+    animation-delay: -1.0s;
+}
+
+
+@-webkit-keyframes sk-rotate {
+    100% {
+        -webkit-transform: rotate(180deg)
+    }
+}
+
+@keyframes sk-rotate {
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes sk-bounce {
+    0%,
+    50% {
+        -webkit-transform: scale(0.0)
+    }
+    100% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bounce {
+    0%,
+    100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
         </style>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@2.9.1/dist/tagify.min.js"></script>
+    <script>
+       document.onreadystatechange = function () {
+  var state = document.readyState
+  if (state == 'interactive') {
+       {#document.getElementById('contents').style.visibility="hidden";#}
+  } else if (state == 'complete') {
+      setTimeout(function(){
+         {#document.getElementById('interactive');#}
+         document.getElementById('loader').style.visibility="hidden";
+         {#document.getElementById('contents').style.visibility="visible";#}
+      },1000);
+  }
+}
+    </script>
 </head>
 
 <body>
-
+<div class="preloader-area" id="loader">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+        </div>
+    </div>
 <script>
-    var LOGIN_STATUS = {{ loggedIn }}
-</script>
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+    var LOGIN_STATUS = {{ loggedIn }};
+
+
+{% if swalFlag %}
+    Swal({
+                                title : capitalizeFirstLetter("{{ swalStatus }}"),
+                                text :"{{ msg }}",
+                                type : "{{ swalStatus }}",
+                            });
+{% endif %}
+    </script>
 <div id="particles-js" class="main-form-box">
 
 <input type="button" value="Logout" class="logout"  onclick="window.location='/accounts/logout'" id="logoutButton" style="z-index: 1000;position: fixed;top:2%;right: 4%;"/>
@@ -337,7 +457,7 @@
 {#										</div>#}
 										<div class="form-group">
 											<label class="icon-lp"><i class="fas fa-envelope"></i></label>
-											<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="" required="">
+											<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="@iitkgp.ac.in" required="">
 										</div>
 										<div class="form-group">
 											<label class="icon-lp"><i class="fas fa-key"></i></label>
@@ -472,11 +592,13 @@
 </div>
 
 
-<script src="{% static '/webview/js/jquery.min.js' %}"></script>
+
 <script src="{% static '/webview/js/bootstrap.min.js' %}"></script>
 <script src="{% static '/webview/js/particles.min.js' %}"></script>
 <script src="{% static '/webview/js/index.js' %}"></script>
 	<script type="text/javascript">
+
+
 		$(function() {
 			$('#login-form-link').click(function(e) {
 				$("#login-form").delay(100).fadeIn(100);
@@ -487,10 +609,10 @@
 				e.preventDefault();
 			});
 			$('#register-form-link').click(function(e) {
+			    {#Before chnging here look below at changeLoginStatus#}
 				$("#register-form").delay(100).fadeIn(100);
 				$("#login-form").fadeOut(100);
 				$('#login-form-link').removeClass('active');
-				$('#register-form-link').removeClass('active');
 				$(this).addClass('active');
 				attachForm()
 				e.preventDefault();
@@ -770,18 +892,22 @@ function onTagClick(e){
 
 function changeLoginStatus(flag=false) {
     if ((LOGIN_STATUS) || (flag)){
-        {#console.log(flag);#}
-        {#console.log(LOGIN_STATUS);#}
         document.getElementById("logoutButton").style.display = "block"
+        {% if swalFlag %}
+             $("#register-form").delay(100).fadeIn(100);
+				$("#login-form").fadeOut(100);
+				$('#login-form-link').removeClass('active');
+
+				$("#register-form-link").addClass('active');
+				attachForm()
+        {% endif %}
     }else {
         document.getElementById("logoutButton").style.display = "none"
     }
 }
 changeLoginStatus()
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+
 
 
 

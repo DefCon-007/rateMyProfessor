@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from ..models import Subject,Professor, finalRatings, rating
 from . import utility
 import json
+from sentry_sdk import capture_exception
+
+
 def addNewUser(email, password):
     try :
         u, created = User.objects.get_or_create(username=email, email=email)
@@ -9,14 +12,8 @@ def addNewUser(email, password):
         u.save()
         return True
     except Exception as e :
-        print(e)
+        capture_exception(e)
         return False
-    # if created:
-    # # user was created
-    # # set the password here
-    # else:
-# user was retrieved
-
 
 
 def getSubjectList() :
@@ -38,11 +35,6 @@ def getProfessor(name,depCode) :
         return None, False
 def getProfList() :
     return  Professor.objects.all()
-
-def getRating(subject,prof) :
-    ratingObjs = finalRatings.objects.filter(subject=subject, professor=prof)
-    if (len(ratingObjs) == 1) :
-        return ratingObjs[0], True
 
 
 
@@ -90,7 +82,7 @@ def addNewrating(subject,prof,user,attendance,taMarks,grades,timing, tags) :
                 p.save()
             return  "Rating successfully saved", True
     except Exception as e :
-        print(e)
+        capture_exception(e)
         return "Internal error occurred. Please try again later", False
 
 
@@ -102,5 +94,5 @@ def getFinaRating(sub,prof) :
         else :
             return "Rating for specified Subject and Professor does not exist", False
     except Exception as e:
-        print(e)
+        capture_exception(e)
         return "Internal error occurred. Please try again later", False
