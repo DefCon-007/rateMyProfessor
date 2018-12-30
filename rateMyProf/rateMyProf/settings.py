@@ -213,7 +213,7 @@ LANGUAGE_CODE = 'en-us'
 
 LOGOUT_REDIRECT_URL = "index"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
