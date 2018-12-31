@@ -399,7 +399,7 @@ form .form-group .icon-lp{
 	position: absolute;
 	left: -9999px;
 }
-.che-box .checkbox-in span{
+.che-box .checkbox-in i {
 	position: absolute;
 	top: 5px;
 	left: 0;
@@ -407,17 +407,17 @@ form .form-group .icon-lp{
 	width: 18px;
 	height: 18px;
 	outline: none;
-	border-width: 1px;
-	border-style: solid;
+	/*border-width: 1px;*/
+	/*border-style: solid;*/
 	background: none;
-	border-color: #755c9e;
+	/*border-color: #755c9e;*/
 	transition: border-color 0.3s;
 	-o-transition: border-color 0.3s;
 	-ms-transition: border-color 0.3s;
 	-moz-transition: border-color 0.3s;
 	-webkit-transition: border-color 0.3s;
 }
-.che-box .checkbox-in input + span::after{
+.che-box .checkbox-in input + i::after{
 	position: absolute;
 	opacity: 0;
 	transition: opacity 0.1s;
@@ -427,7 +427,7 @@ form .form-group .icon-lp{
 	-webkit-transition: opacity 0.1s;
 }
 
-.che-box .checkbox-in input + span::after{
+.che-box .checkbox-in input + i::after{
 	content: '\f00c';
 	top: 0px;
 	left: -1px;
@@ -438,7 +438,7 @@ form .form-group .icon-lp{
 	color: #755c9e;
 }
 
-.che-box .checkbox-in input:checked + span::after {
+.che-box .checkbox-in input:checked + i::after {
     opacity: 1;
 }
 
